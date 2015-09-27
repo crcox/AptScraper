@@ -35,6 +35,7 @@ def extract_listings(parsed, maxlistings=0):
         fullURL = 'http://milwaukee.craigslist.org/'+url
         resp = requests.get(fullURL)
         return resp.content, resp.encoding
+
     def parse_listing(html, encoding='utf-8'):
         parsed = BeautifulSoup(html, from_encoding=encoding)
         return parsed
@@ -185,20 +186,6 @@ def extract_listings(parsed, maxlistings=0):
         this_listing.update(attributes)
         extracted.append(this_listing)
     return extracted
-
-def gmap_distance(location,destination):
-    # location and destination should be address strings.
-    api = Directions()
-
-    dist = {'car':0, 'transit':0}
-    time = {'car':0, 'transit':0}
-    d = api.directions(loc,dest)
-    dist['car'] = d[0]['legs'][0]['distance']['value']
-    time['car'] = d[0]['legs'][0]['duration']['value']
-    d = api.directions(loc,dest,'transit')
-    dist['transit'] = d[0]['legs'][0]['distance']['value']
-    time['transit'] = d[0]['legs'][0]['duration']['value']
-    return dist, time
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'test':
