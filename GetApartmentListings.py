@@ -3,13 +3,14 @@ import pickle
 from aptscraper import scraper, export
 
 parser = argparse.ArgumentParser(description='Get apartment listings from Craigslist.')
-#parser.add_argument('-c','--config', type=str, nargs=1,help='Path to a yaml-formated file with configuation options.')
+#parser.add_argument('-f','--config', type=str, nargs=1,help='Path to a yaml-formated file with configuation options.')
 #parser.add_argument('-g', '--gui', dest='usegui', action='store_true', help='Launch GUI to fill in options.')
+parser.add_argument('-c','--city', dest='city', type=str, help='Region or city, to define Craigslist url.')
 parser.add_argument('-m','--min', dest='minprice', type=int, help='Minimum price.')
 parser.add_argument('-M','--max', dest='maxprice', type=int, help='Maximum price.')
 parser.add_argument('-r','--rooms', dest='nrooms', type=int, choices=[1,2,3,4,5], help='Number of rooms.')
 parser.add_argument('-l','--landmark', dest='dest', type=str, help='Landmark to compute distances and times from each each apartment listing. Multiple words must be enclosed "in quotes".')
-parser.add_argument('-m','--methods', dest='method', type=str, nargs='+', choices=["car", "walking", "transit", "biking"], help='Any or several methods of transportation for distance and time computation.')
+parser.add_argument('-t','--methods', dest='method', type=str, nargs='+', choices=["car", "walking", "transit", "biking"], help='Any or several methods of transportation for distance and time computation.')
 args = parser.parse_args()
 
 def getDistancesAndTimesToLandmark(listings, dest):
@@ -34,10 +35,10 @@ def getDistancesAndTimesToLandmark(listings, dest):
             except:
                 print loc
                 continue
-    
+
         listings[i]['dist'] = dist
         listings[i]['time'] = time
-        return listings
+    return listings
 
 html, encoding = scraper.fetch_search_results(
     minAsk=args.minprice, maxAsk=args.maxprice, bedrooms=args.nrooms)
@@ -64,9 +65,7 @@ else:
         max=args.maxprice
     )
     print "No landmark provided. Returning without distances or times."
-  
+
 with open('LISTINGS.pkl','wb') as f:
     pickle.dump(listings,f)
-    
-keys=['price','bed','bath','description','address','address_g','meters_car','meters_transit','seconds_car','seconds_transit','laundry','type','availability','size','nonsmoking','parking','link','latitude','longitude']
-export.csv(filename, listings, keys)
+export.csvfile(filename, listings)

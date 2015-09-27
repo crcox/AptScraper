@@ -29,7 +29,7 @@ class UnicodeWriter:
         for row in rows:
             self.writerow(row)
 
-def csv(filename, listings, keys=[]):
+def csvfile(filename, listings, keys=[]):
     def unpackListing(listing):
         d = listing
         if "dist" in listing.keys():
@@ -37,18 +37,18 @@ def csv(filename, listings, keys=[]):
                 k = "meters_{m:s}".format(m=m)
                 d[k] = listing["dist"][m]
             del d["dist"]
-            
+
         if "time" in listing.keys():
             for m in listing["time"].keys():
                 k = "seconds_{m:s}".format(m=m)
                 d[k] = listing["time"][m]
             del d["time"]
-            
+
         return d
-        
+
     if not keys:
-        keys = listings.keys()
- 
+        keys = listings[0].keys()
+
     with open(filename, 'wb') as f:
         writer = UnicodeWriter(f)
         writer.writerow(keys)
