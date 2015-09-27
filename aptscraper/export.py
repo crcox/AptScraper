@@ -1,4 +1,4 @@
-import csv, codecs, cStringIO, pickle
+import csv, codecs, cStringIO
 
 class UnicodeWriter:
     """

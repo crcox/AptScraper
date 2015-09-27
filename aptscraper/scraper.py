@@ -1,6 +1,6 @@
 import re,requests, sys, pickle
 from bs4 import BeautifulSoup
-from gmaps import Geocoding, Directions, errors
+from gmaps import geocoding, errors
 
 
 def fetch_search_results(query=None, minAsk=None, maxAsk=None, bedrooms=None):
@@ -116,7 +116,7 @@ def extract_listings(parsed, maxlistings=0):
         return A
 
     def geolocate_address(coords):
-        api_g = Geocoding() # to get address from coords
+        api_g = geocoding.Geocoding() # to get address from coords
         loc = api_g.reverse(coords['data-latitude'], coords['data-longitude'])
         addr = loc[0]['formatted_address']
         return addr
@@ -199,31 +199,6 @@ if __name__ == '__main__':
     dest = '11000 West Lake Park Drive, Milwaukee Wisconsin, 53224'
     doc = parse_source(html, encoding)
     listings = extract_listings(doc)
-    print 'Computing distances...'
-    for i, listing in enumerate(listings):
-        print i
-        loc = listing['address']
-        if loc:
-            try:
-                dist, time = gmap_distance(loc,dest)
-            except:
-                try:
-                    loc = listing['address_g']
-                    dist, time = gmap_distance(loc,dest)
-                except:
-                    print loc
-                    continue
-        else:
-            loc = listing['address_g']
-            try:
-                dist, time = gmap_distance(loc,dest)
-            except:
-                print loc
-                continue
-        listings[i]['meters_car'] = dist['car']
-        listings[i]['seconds_car'] = time['car']
-        listings[i]['meters_transit'] = dist['transit']
-        listings[i]['seconds_transit'] = time['transit']
 
     with open('LISTINGS.pkl','wb') as f:
         pickle.dump(listings,f)
