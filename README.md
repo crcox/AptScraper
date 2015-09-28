@@ -7,3 +7,11 @@ The program `GetApartmentListings.py` depends on the library `aptscraper`, conta
 Once properly installed, usage details can be obtained by typing:
 
 `python GetApartmentListings.py -h`
+
+## Dependencies
+### Beautiful Soup 4
+http://www.crummy.com/software/BeautifulSoup/
+https://pypi.python.org/pypi/beautifulsoup4/4.4.0
+
+### python-gmaps
+https://pypi.python.org/pypi/python-gmaps/0.3.0
