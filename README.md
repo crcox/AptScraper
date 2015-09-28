@@ -10,8 +10,8 @@ Once properly installed, usage details can be obtained by typing:
 
 ## Dependencies
 ### Beautiful Soup 4
-http://www.crummy.com/software/BeautifulSoup/
-https://pypi.python.org/pypi/beautifulsoup4/4.4.0
+- http://www.crummy.com/software/BeautifulSoup/
+- https://pypi.python.org/pypi/beautifulsoup4/4.4.0
 
 ### python-gmaps
-https://pypi.python.org/pypi/python-gmaps/0.3.0
+- https://pypi.python.org/pypi/python-gmaps/0.3.0
